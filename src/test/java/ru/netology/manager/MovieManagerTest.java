@@ -6,7 +6,8 @@ import ru.netology.domain.Movie;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MovieManagerTest {
-    private MovieManager movieManager = new MovieManager();
+    private MovieManager movieManagerDefault = new MovieManager();
+
     private Movie[] movies;
 
     //добавление фильма в ленту
@@ -17,9 +18,9 @@ class MovieManagerTest {
             movies[i] = new Movie();
         }
         for (int i = 0; i < 3; i++) {
-            movieManager.add(movies[i]);
+            movieManagerDefault.add(movies[i]);
         }
-        Movie[] actual = movieManager.getAll();
+        Movie[] actual = movieManagerDefault.getAll();
         Movie[] expected = new Movie[]{movies[2], movies[1], movies[0]};
 
         assertArrayEquals(expected, actual);
@@ -30,13 +31,14 @@ class MovieManagerTest {
     @Test
     public void shouldGetLessTen() {
         movies = new Movie[3];
+
         for (int i = 0; i < 3; i++) {
             movies[i] = new Movie();
         }
         for (int i = 0; i < 3; i++) {
-            movieManager.add(movies[i]);
+            movieManagerDefault.add(movies[i]);
         }
-        Movie[] actual = movieManager.getMovies();
+        Movie[] actual = movieManagerDefault.getMovies();
         Movie[] expected = new Movie[]{movies[2], movies[1], movies[0]};
 
         assertArrayEquals(expected, actual);
@@ -51,9 +53,9 @@ class MovieManagerTest {
             movies[i] = new Movie();
         }
         for (int i = 0; i < 12; i++) {
-            movieManager.add(movies[i]);
+            movieManagerDefault.add(movies[i]);
         }
-        Movie[] actual = movieManager.getMovies();
+        Movie[] actual = movieManagerDefault.getMovies();
         Movie[] expected = new Movie[10];
         for (int i = 0; i < 10; i++) {
             expected[i] = movies[11 - i];
@@ -64,6 +66,7 @@ class MovieManagerTest {
     //получить произвольное число фильмов, которое больше, чем фильмов в ленте
     @Test
     public void shouldGetMoreThanInBillboard() {
+        MovieManager movieManager = new MovieManager(6);
         movies = new Movie[3];
         for (int i = 0; i < 3; i++) {
             movies[i] = new Movie();
@@ -71,7 +74,7 @@ class MovieManagerTest {
         for (int i = 0; i < 3; i++) {
             movieManager.add(movies[i]);
         }
-        Movie[] actual = movieManager.getMovies(5);
+        Movie[] actual = movieManager.getMovies();
         Movie[] expected = new Movie[3];
         for (int i = 0; i < 3; i++) {
             expected[i] = movies[2 - i];
@@ -82,17 +85,18 @@ class MovieManagerTest {
     //получить произвольное число фильмов, которое меньше, чем фильмов в ленте
     @Test
     public void shouldGetLessThanInBillboard() {
-        movies = new Movie[3];
-        for (int i = 0; i < 3; i++) {
+        MovieManager movieManager = new MovieManager(6);
+        movies = new Movie[10];
+        for (int i = 0; i < 10; i++) {
             movies[i] = new Movie();
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             movieManager.add(movies[i]);
         }
-        Movie[] actual = movieManager.getMovies(2);
-        Movie[] expected = new Movie[2];
-        for (int i = 0; i < 2; i++) {
-            expected[i] = movies[2 - i];
+        Movie[] actual = movieManager.getMovies();
+        Movie[] expected = new Movie[6];
+        for (int i = 0; i < 6; i++) {
+            expected[i] = movies[6 - i];
         }
         assertArrayEquals(expected, actual);
     }
